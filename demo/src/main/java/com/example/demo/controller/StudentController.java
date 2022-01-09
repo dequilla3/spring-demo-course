@@ -3,9 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Student;
 import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -29,8 +27,13 @@ public class StudentController {
     return studentService.getStudents();
   }
 
-  private Date convertLocalDateToDate(LocalDate localDate) {
-    ZoneId defaultZoneId = ZoneId.systemDefault();
-    return Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+  @PostMapping
+  public void registerNewStudent(@RequestBody Student student) {
+    studentService.addNewStudents(student);
+  }
+
+  @DeleteMapping(path = "{studentId}")
+  public void deleteStudent(@PathVariable("studentId") Long studentId) {
+    studentService.deleteStudent(studentId);
   }
 }
